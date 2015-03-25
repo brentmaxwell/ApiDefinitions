@@ -1,0 +1,324 @@
+<application xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+             xmlns:apigee="http://api.apigee.com/wadl/2010/07/"
+             xmlns="http://wadl.dev.java.net/2009/02"
+             xsi:schemaLocation="http://wadl.dev.java.net/2009/02 http://apigee.com/schemas/wadl-schema.xsd http://api.apigee.com/wadl/2010/07/ http://apigee.com/schemas/apigee-wadl-extensions.xsd">
+	<resources base="https://www.strava.com/api/v3">
+		<!-- retrieve current athlete -->
+        <resource path="/athlete">
+            <method id="get_current_athlete" name="GET" apigee:displayName="Retrieve current athlete">
+                <apigee:tags>
+                    <apigee:tag primary="true">Athlete</apigee:tag>
+					<apigee:tag>Current Athlete</apigee:tag>
+                </apigee:tags>
+                <apigee:authentication required="true"/>
+                <apigee:example url="/athlete"/>
+                <doc apigee:url="https://strava.github.io/api/v3/athlete/#get-details">
+                    This request is used to retrieve information about the currently authenticated athlete.
+                </doc>
+            </method>
+        </resource>
+        <!-- retrieve another athlete -->
+		<resource path="/athletes/{id}">
+            <param name="id" required="true" type="xsd:string" style="template">
+                <doc>Athlete ID (ex. 893039)</doc>
+            </param>
+            <method id="get_athlete" name="GET" apigee:displayName="Retrieve another athlete">
+                <apigee:tags>
+                    <apigee:tag primary="true">Athlete</apigee:tag>
+                </apigee:tags>
+                <apigee:authentication required="true"/>
+                <apigee:example url="/athletes/{id}"/>
+                <doc apigee:url="https://strava.github.io/api/v3/athlete/#get-another-details">
+                    This request is used to retrieve information about any athlete on Strava.
+                </doc>
+            </method>
+        </resource>
+		<!-- list athlete K/QOMs/CRs -->
+		<resource path="/athletes/{id}/koms">
+            <param name="id" required="true" type="xsd:string" style="template">
+                <doc>Athlete ID (ex. 893039)</doc>
+            </param>
+			<param name="per_page" required="false" type="xsd:string" style="query">
+                <doc>Per Page</doc>
+            </param>
+			<param name="page" required="false" type="xsd:string" style="query">
+                <doc>Page</doc>
+            </param>
+            <method id="get_athlete_kom" name="GET" apigee:displayName="List athlete K/QOMs/CRs">
+                <apigee:tags>
+                    <apigee:tag primary="true">Athlete</apigee:tag>
+                </apigee:tags>
+                <apigee:authentication required="true"/>
+                <apigee:example url="/athletes/{id}"/>
+                <doc apigee:url="https://strava.github.io/api/v3/athlete/#koms">
+                    Returns an array of segment efforts representing KOMs/QOMs and course records held by the given athlete. Results are sorted by date, newest first. Pagination is supported.
+                </doc>
+            </method>
+        </resource>
+		<!-- List athlete activities -->
+		<resource path="/athlete/activities">
+			<param name="before" required="false" type="xsd:string" style="query">
+                <doc>seconds since UNIX epoch, result will start with activities whose start_date is before this value</doc>
+            </param>
+			<param name="after" required="false" type="xsd:string" style="query">
+                <doc>seconds since UNIX epoch, result will start with activities whose start_date is after this value, sorted oldest first</doc>
+            </param>
+            <param name="per_page" required="false" type="xsd:string" style="query">
+                <doc>Per Page</doc>
+            </param>
+			<param name="page" required="false" type="xsd:string" style="query">
+                <doc>Page</doc>
+            </param>
+            <method id="get_activities" name="GET" apigee:displayName="List athlete activities">
+                <apigee:tags>
+                    <apigee:tag primary="true">Activities</apigee:tag>
+					<apigee:tag>Current Athlete</apigee:tag>
+                </apigee:tags>
+                <apigee:authentication required="true"/>
+                <apigee:example url="/athlete/activities"/>
+                <doc apigee:url="https://strava.github.io/api/v3/activities/#get-activities">
+                    This endpoint returns a list of activities for the authenticated user.
+                </doc>
+            </method>
+        </resource>
+		<!-- Retrieve an activity -->
+		<resource path="/activities/{id}">
+			<param name="id" required="true" type="xsd:string" style="template">
+                <doc>Activity ID</doc>
+            </param>
+			<param name="include_all_efforts" required="false" type="xsd:string" style="query">
+                <doc>used to include all segment efforts in the result</doc>
+				<option value="true"/>
+				<option value="false"/>
+            </param>
+
+            <method id="get_activity" name="GET" apigee:displayName="Retrieve an activity">
+                <apigee:tags>
+                    <apigee:tag primary="true">Activities</apigee:tag>
+                </apigee:tags>
+                <apigee:authentication required="true"/>
+                <apigee:example url="/activities/{id}"/>
+                <doc apigee:url="https://strava.github.io/api/v3/activities/#get-details">
+                    Activity details, including segment efforts, splits and best efforts, are only available to the owner of the activity.
+                </doc>
+            </method>
+        </resource>
+		<!-- List activity comments -->
+		<resource path="/activities/{id}/comments">
+			<param name="id" required="true" type="xsd:string" style="template">
+                <doc>Activity ID</doc>
+            </param>
+			<param name="markdown" required="false" type="xsd:string" style="query">
+                <doc>include markdown in comments, default is false/filter out</doc>
+				<option value="true"/>
+				<option value="false"/>
+            </param>
+						<param name="per_page" required="false" type="xsd:string" style="query">
+                <doc>Per Page</doc>
+            </param>
+			<param name="page" required="false" type="xsd:string" style="query">
+                <doc>Page</doc>
+            </param>
+            <method id="get_activity_comments" name="GET" apigee:displayName="List activity comments">
+                <apigee:tags>
+                    <apigee:tag primary="true">Activities</apigee:tag>
+                </apigee:tags>
+                <apigee:authentication required="true"/>
+                <apigee:example url="/activities/{id}/comments"/>
+                <doc apigee:url="https://strava.github.io/api/v3/comments/#list">
+                    The number of comments is included in the activity summary and detail responses. Use this endpoint to retrieve a list of comments left on a given activity. 
+                </doc>
+            </method>
+        </resource>
+		<!-- List activity kudoers -->
+		<resource path="/activities/{id}/kudos">
+			<param name="id" required="true" type="xsd:string" style="template">
+                <doc>Activity ID</doc>
+            </param>
+			<param name="per_page" required="false" type="xsd:string" style="query">
+                <doc>Per Page</doc>
+            </param>
+			<param name="page" required="false" type="xsd:string" style="query">
+                <doc>Page</doc>
+            </param>
+            <method id="get_activity_kudoers" name="GET" apigee:displayName="List activity kudoers">
+                <apigee:tags>
+                    <apigee:tag primary="true">Activities</apigee:tag>
+                </apigee:tags>
+                <apigee:authentication required="true"/>
+                <apigee:example url="/activities/{id}/kudos"/>
+                <doc apigee:url="https://strava.github.io/api/v3/kudos/#list">
+                    The number of kudos is included in the activity summary and detailed representations. This endpoint is for retrieving more detailed information on the athletes who’ve left kudos and can only be accessed by the owner of the activity.
+                </doc>
+            </method>
+        </resource>
+		<!-- List activity photos -->
+		<resource path="/activities/{id}/photos">
+			<param name="id" required="true" type="xsd:string" style="template">
+                <doc>Activity ID</doc>
+            </param>
+            <method id="get_activity_photos" name="GET" apigee:displayName="List activity photos">
+                <apigee:tags>
+                    <apigee:tag primary="true">Activities</apigee:tag>
+                </apigee:tags>
+                <apigee:authentication required="true"/>
+                <apigee:example url="/activities/{id}/photos"/>
+                <doc apigee:url="https://strava.github.io/api/v3/photos/#list">
+                    The number of photos is included in the activity summary and detail responses. Use this endpoint to retrieve a list of photos associated with this activity. This endpoint can only be accessed by the owner of the activity.
+                </doc>
+            </method>
+        </resource>
+		<!-- List activity zones -->
+		<resource path="/activities/{id}/zones">
+			<param name="id" required="true" type="xsd:string" style="template">
+                <doc>Activity ID</doc>
+            </param>
+            <method id="get_activity_zones" name="GET" apigee:displayName="List activity zones">
+                <apigee:tags>
+                    <apigee:tag primary="true">Activities</apigee:tag>
+                </apigee:tags>
+                <apigee:authentication required="true"/>
+                <apigee:example url="/activities/{id}/zones"/>
+                <doc apigee:url="https://strava.github.io/api/v3/activities/#zones">
+                    Heartrate and power zones are set by the athlete. This endpoint returns the time (seconds) in each zone. The distribution is not customizable. Requires an access token associated with the owner of the activity and the owner must be a premium user.
+                </doc>
+            </method>
+        </resource>
+		<!-- List activity laps -->
+		<resource path="/activities/{id}/laps">
+			<param name="id" required="true" type="xsd:string" style="template">
+                <doc>Activity ID</doc>
+            </param>
+            <method id="get_activity_laps" name="GET" apigee:displayName="List activity laps">
+                <apigee:tags>
+                    <apigee:tag primary="true">Activities</apigee:tag>
+                </apigee:tags>
+                <apigee:authentication required="true"/>
+                <apigee:example url="/activities/{id}/laps"/>
+                <doc apigee:url="https://strava.github.io/api/v3/activities/#laps">
+                    This resource will return all laps for an activity. Laps are triggered by athletes using their respective devices, such as Garmin watches.
+                </doc>
+            </method>
+        </resource>
+		<!-- List friends' activities -->
+		<resource path="/activities/following">
+            <param name="per_page" required="false" type="xsd:string" style="query">
+                <doc>Per Page</doc>
+            </param>
+			<param name="page" required="false" type="xsd:string" style="query">
+                <doc>Page</doc>
+            </param>
+            <method id="get_friends_activities" name="GET" apigee:displayName="List friends’ activities">
+                <apigee:tags>
+                    <apigee:tag primary="true">Activities</apigee:tag>
+					<apigee:tag>Current Athlete</apigee:tag>
+                </apigee:tags>
+                <apigee:authentication required="true"/>
+                <apigee:example url="/activities/following"/>
+                <doc apigee:url="https://strava.github.io/api/v3/activities/#get-feed">
+                    List the recent activities performed by those the current athlete is following.
+                </doc>
+            </method>
+        </resource>
+		<!-- Retrieve a club -->
+		<resource path="/clubs/{id}">
+			<param name="id" required="true" type="xsd:string" style="template">
+                <doc>Club ID</doc>
+            </param>
+            <method id="get_club" name="GET" apigee:displayName="Retrieve a club">
+                <apigee:tags>
+                    <apigee:tag primary="true">Clubs</apigee:tag>
+                </apigee:tags>
+                <apigee:authentication required="true"/>
+                <apigee:example url="/clubs/{id}"/>
+                <doc apigee:url="https://strava.github.io/api/v3/clubs/#get-details">
+                    Retrieve details about a specific club. The club must be public or the current athlete must be a member.
+                </doc>
+            </method>
+        </resource>
+		<!-- List athlete clubs -->
+		<resource path="/athlete/clubs">
+            <method id="get_current_athlete_clubs" name="GET" apigee:displayName="List athlete clubs">
+                <apigee:tags>
+                    <apigee:tag primary="true">Clubs</apigee:tag>
+					<apigee:tag>Current Athlete</apigee:tag>
+                </apigee:tags>
+                <apigee:authentication required="true"/>
+                <apigee:example url="/athlete/clubs"/>
+                <doc apigee:url="https://strava.github.io/api/v3/clubs/#get-athletes">
+                    This request is used to retrieve information about the currently authenticated athlete.
+                </doc>
+            </method>
+        </resource>
+		<!-- List club members -->
+		<resource path="/clubs/{id}/members">
+			<param name="id" required="true" type="xsd:string" style="template">
+                <doc>Club ID</doc>
+            </param>
+			<param name="per_page" required="false" type="xsd:string" style="query">
+                <doc>Per Page</doc>
+            </param>
+			<param name="page" required="false" type="xsd:string" style="query">
+                <doc>Page</doc>
+            </param>
+            <method id="get_club_members" name="GET" apigee:displayName="List club members">
+                <apigee:tags>
+                    <apigee:tag primary="true">Clubs</apigee:tag>
+                </apigee:tags>
+                <apigee:authentication required="true"/>
+                <apigee:example url="/clubs/{id}/members"/>
+                <doc apigee:url="https://strava.github.io/api/v3/clubs/#get-members">
+                    Retrieve summary information about members of a specific club.
+                </doc>
+            </method>
+        </resource>
+		<!-- List club activities -->
+		<resource path="/clubs/{id}/activities">
+			<param name="id" required="true" type="xsd:string" style="template">
+                <doc>Club ID</doc>
+            </param>
+			<param name="per_page" required="false" type="xsd:string" style="query">
+                <doc>Per Page</doc>
+            </param>
+			<param name="page" required="false" type="xsd:string" style="query">
+                <doc>Page</doc>
+            </param>
+            <method id="get_club_activities" name="GET" apigee:displayName="List club activities">
+                <apigee:tags>
+                    <apigee:tag primary="true">Clubs</apigee:tag>
+                </apigee:tags>
+                <apigee:authentication required="true"/>
+                <apigee:example url="/clubs/{id}/activities"/>
+                <doc apigee:url="https://strava.github.io/api/v3/clubs/#get-activities">
+                    Retrieve the recent activities performed by members of a specific club. The authenticated athlete must be a member of the club.
+                </doc>
+            </method>
+        </resource>
+		<!-- Retrieve gear -->
+		<resource path="/gear/{id}">
+			<param name="id" required="true" type="xsd:string" style="template">
+                <doc>Gear ID</doc>
+            </param>
+            <method id="get_gear" name="GET" apigee:displayName="Retrieve gear">
+                <apigee:tags>
+                    <apigee:tag primary="true">Gear</apigee:tag>
+                </apigee:tags>
+                <apigee:authentication required="true"/>
+                <apigee:example url="/gear/{id}"/>
+                <doc apigee:url="https://strava.github.io/api/v3/gear/#show">
+                    Retrieve details about a specific item of gear. The requesting athlete must own the gear. 
+                </doc>
+            </method>
+        </resource>
+		<!-- Retrieve a segment -->
+		<!-- List starred segments -->
+		<!-- List efforts -->
+		<!-- Segment leaderboards -->
+		<!-- Segment explorer -->
+		<!-- Retrieve a segment effort -->
+		<!-- Retrieve activity streams -->
+		<!-- Retrieve effort streams -->
+		<!-- Retrieve segment streams -->
+    </resources>
+</application>

@@ -114,7 +114,7 @@
 				<option value="true"/>
 				<option value="false"/>
             </param>
-						<param name="per_page" required="false" type="xsd:string" style="query">
+			<param name="per_page" required="false" type="xsd:string" style="query">
                 <doc>Per Page</doc>
             </param>
 			<param name="page" required="false" type="xsd:string" style="query">
@@ -378,8 +378,111 @@
             </method>
         </resource>
 		<!-- Segment leaderboards -->
+		<resource path="/segments/{id}/leaderboard">
+			<param name="id" required="true" type="xsd:string" style="template">
+                <doc>Segment ID</doc>
+            </param>
+			<param name="gender" required="false" type="xsd:string" style="query">
+                <doc>Gender</doc>
+				<option value="M"/>
+				<option value="F"/>
+            </param>
+			<param name="age_group" required="false" type="xsd:string" style="query">
+                <doc>Age Group</doc>
+				<option value="0_24"/>
+				<option value="25_34"/>
+				<option value="35_44"/>
+				<option value="45_54"/>
+				<option value="55_64"/>
+				<option value="65_plus"/>
+            </param>
+			<param name="weight_class" required="false" type="xsd:string" style="query">
+                <doc>Weight Class</doc>
+				<option value="0_124"/>
+				<option value="125_149"/>
+				<option value="150_164"/>
+				<option value="165_179"/>
+				<option value="180_199"/>
+				<option value="200_plus"/>
+            </param>
+			<param name="following" required="false" type="xsd:string" style="query">
+                <doc>Follwing</doc>
+				<option value="true"/>
+				<option value="false"/>
+            </param>
+			<param name="club_id" required="false" type="xsd:string" style="template">
+                <doc>Club ID</doc>
+            </param>
+			<param name="date_range" required="false" type="xsd:string" style="query">
+                <doc>Date Range</doc>
+				<option value="this_year"/>
+				<option value="this_month"/>
+				<option value="this_week"/>
+				<option value="today"/>
+            </param>
+			<param name="context_entries" required="false" type="xsd:int" style="query">
+                <doc>Context Entries</doc>
+            </param>
+			<param name="per_page" required="false" type="xsd:int" style="query">
+                <doc>Per Page</doc>
+            </param>
+			<param name="page" required="false" type="xsd:int" style="query">
+                <doc>Page</doc>
+            </param>
+            <method id="get_leaderboard" name="GET" apigee:displayName="Segment Leaderboard">
+                <apigee:tags>
+                    <apigee:tag primary="true">Segments</apigee:tag>
+                </apigee:tags>
+                <apigee:authentication required="true"/>
+                <apigee:example url="/segments/{id}/leaderboard"/>
+                <doc apigee:url="https://strava.github.io/api/v3/segments/#leaderboard">
+                    Leaderboards represent the ranking of athletes on specific segments. Filter by age_group and weight_class is only allowed if the authenticated athlete is a Strava premium member. Pagination is supported.
+                </doc>
+            </method>
+        </resource>
 		<!-- Segment explorer -->
+		<resource path="/segments/explore">
+			<param name="bounds" required="true" type="xsd:string" style="template">
+                <doc>Bounds</doc>
+            </param>
+			<param name="activity_type" required="false" type="xsd:string" style="query">
+                <doc>Activity Type</doc>
+				<option value="running"/>
+				<option value="riding"/>
+            </param>
+			<param name="min_cat" required="false" type="xsd:int" style="query">
+                <doc>Minimum climb category</doc>
+            </param>
+			<param name="max_cat" required="false" type="xsd:int" style="query">
+                <doc>Maximum climb category</doc>
+            </param>
+            <method id="get_segments_explore" name="GET" apigee:displayName="Segment Explorer">
+                <apigee:tags>
+                    <apigee:tag primary="true">Segments</apigee:tag>
+                </apigee:tags>
+                <apigee:authentication required="true"/>
+                <apigee:example url="/segments/explore"/>
+                <doc apigee:url="https://strava.github.io/api/v3/segments/#explore">
+                    This endpoint can be used to find popular segments within a given area.
+                </doc>
+            </method>
+        </resource>
 		<!-- Retrieve a segment effort -->
+		<resource path="/segment_efforts/{id}">
+			<param name="id" required="true" type="xsd:string" style="template">
+                <doc>Segment ID</doc>
+            </param>
+            <method id="get_segments_efforts" name="GET" apigee:displayName="Segment Efforts">
+                <apigee:tags>
+                    <apigee:tag primary="true">Segment Efforts</apigee:tag>
+                </apigee:tags>
+                <apigee:authentication required="true"/>
+                <apigee:example url="/segment_efforts/{id}"/>
+                <doc apigee:url="https://strava.github.io/api/v3/efforts/#retrieve">
+                    A segment effort represents an athlete’s attempt at a segment. It can also be thought of as a portion of a ride that covers a segment. The object is returned in summary or detailed representations. They are currently the same.
+                </doc>
+            </method>
+        </resource>
 		<!-- Retrieve activity streams -->
 		<!-- Retrieve effort streams -->
 		<!-- Retrieve segment streams -->
